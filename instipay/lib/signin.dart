@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insti_payment/services/auth.dart';
+import 'package:instipay/services/auth.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Login extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insti_payment/signin.dart';
+import 'package:instipay/signin.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

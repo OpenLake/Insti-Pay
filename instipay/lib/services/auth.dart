@@ -47,7 +47,7 @@ class AuthService{
     await supabase
         .from('Data')
         .insert({'name': name, 'clgID': clgID,"email":email});
-    
+
     return user==null;
 
   }

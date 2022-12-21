@@ -16,6 +16,11 @@ class _PayState extends State<Pay> {
   int? bal;
 
   Future checkID(String id,int amount) async{
+    if(bal==0){
+      setState(() {
+        error="Can't pay if balance is zero";
+      });
+    }
     final supabase = Supabase.instance.client;
     final data= await supabase
         .from("Data")
@@ -23,48 +28,67 @@ class _PayState extends State<Pay> {
         .eq("clgID",id);
     if(data.length==0 ){
       setState((){
-        error= "User not present on Instipay rn";
+        if(error=="") {
+          error = "User not present on Instipay rn";
+        };
       });
 
     }
     else{
-      if(amount>bal!) {
+      if(bal==0) {
+        setState((){
+          error= "Can't pay if balance is zero";
+        });
+      }
+      else if(amount>bal!){
         setState((){
           error= "Amount more than balance";
         });
-      } else{
-        setState(() {
-          error="Processing";
-        });
+      }
+
+      else {
         final User? user = supabase.auth.currentUser;
-        final data= await supabase
+        final data = await supabase
             .from("Data")
             .select()
-            .eq("email",user?.email);
+            .eq("email", user?.email);
+        if (data[0]['clgID'] == id) {
+          setState(() {
+            error = "Can't pay to yourself";
+          });
+        }
+        else {
+          setState(() {
+            error = "Processing";
+          });
+          await supabase
+              .from('Data')
+              .update({ 'amount': bal! - amount})
+              .match({ 'clgID': data[0]["clgID"]});
 
-        await supabase
-            .from('Data')
-            .update({ 'amount': bal!-amount })
-            .match({ 'clgID': data[0]["clgID"] });
-
-        final data2= await supabase
-            .from("Data")
-            .select()
-            .eq("clgID",id);
+          final data2 = await supabase
+              .from("Data")
+              .select()
+              .eq("clgID", id);
 
 
-        await supabase
-            .from('Data')
-            .update({ 'amount': data2[0]["amount"]+amount })
-            .match({ 'clgID': id });
+          await supabase
+              .from('Data')
+              .update({ 'amount': data2[0]["amount"] + amount})
+              .match({ 'clgID': id});
 
-        await supabase
-            .from('Transactions')
-            .insert({'senderID': data[0]["clgID"], 'receiverID':id,'amount':amount});
-        setState(() {
-          error="Payment Successful";
-          context.go('/');
-        });
+          await supabase
+              .from('Transactions')
+              .insert({
+            'senderID': data[0]["clgID"],
+            'receiverID': id,
+            'amount': amount
+          });
+          setState(() {
+            error = "Payment Successful";
+            context.go('/');
+          });
+        }
       }
 
     }

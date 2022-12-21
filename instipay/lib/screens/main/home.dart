@@ -61,6 +61,16 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                   ),
+                ),
+                Card(
+                  color: Color(0xff300757),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextButton(
+                      onPressed: ()=>context.go('/pay'),
+                      child: Text('Pay by ID',style:TextStyle(color: Colors.white),),
+                    ),
+                  ),
                 )
               ],
             ),

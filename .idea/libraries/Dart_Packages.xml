@@ -219,6 +219,13 @@
             </list>
           </value>
         </entry>
+        <entry key="mobile_scanner">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/mobile_scanner-2.1.0/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="nested">
           <value>
             <list>
@@ -314,6 +321,20 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.5/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="qr">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/qr-2.1.0/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="qr_flutter">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/qr_flutter-4.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -544,6 +565,7 @@
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/material_color_utilities-0.1.5/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.8.0/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/mime-1.0.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/mobile_scanner-2.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.2/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.11/lib" />
@@ -558,6 +580,8 @@
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/postgrest-1.2.1/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/process-4.2.4/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/provider-6.0.5/lib" />
+      <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/qr-2.1.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/qr_flutter-4.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/realtime_client-1.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/retry-3.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../sdk/flutter/.pub-cache/hosted/pub.dartlang.org/rxdart-0.27.7/lib" />

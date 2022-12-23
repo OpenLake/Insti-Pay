@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
                 Row(
                   children: [
                     Expanded(
-                      flex:4,
+                      flex:2,
                       child: Card(
                         color: Color(0xff300757),
                         child: Padding(

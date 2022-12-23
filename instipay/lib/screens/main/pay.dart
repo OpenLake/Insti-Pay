@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 class Pay extends StatefulWidget {
-  const Pay({Key? key}) : super(key: key);
+  String? id;
+  Pay({this.id});
+
 
   @override
   State<Pay> createState() => _PayState();
@@ -14,6 +16,9 @@ class _PayState extends State<Pay> {
   String error="";
   int amount=0;
   int? bal;
+
+  @override
+
 
   Future checkID(String id,int amount) async{
     if(bal==0){
@@ -96,6 +101,14 @@ class _PayState extends State<Pay> {
 
 
   Widget build(BuildContext context) {
+    print(widget.id);
+    if(widget.id!=null){
+      setState((){
+        ID=widget.id!;
+        print(ID);
+      });
+
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff300757),
@@ -125,8 +138,9 @@ class _PayState extends State<Pay> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
+                child: TextFormField(
                   decoration: InputDecoration(hintText: "ID No."),
+                  initialValue: ID,
                   onChanged: (val) {
                     setState(() => ID = val);
                   },

@@ -39,6 +39,8 @@ dependencies:
   supabase_flutter: ^1.2.2
   provider: ^6.0.5
   go_router: ^6.0.0
+  qr_flutter: ^4.0.0
+  mobile_scanner: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -71,6 +71,35 @@ class _HomeState extends State<Home> {
                       child: Text('Pay by ID',style:TextStyle(color: Colors.white),),
                     ),
                   ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex:4,
+                      child: Card(
+                        color: Color(0xff300757),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: TextButton(
+                            onPressed: ()=>context.go('/paybyqr'),
+                            child: Text('Pay by QR',style:TextStyle(color: Colors.white),),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Card(
+                        color: Colors.yellow.shade700,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: TextButton(
+                            onPressed: ()=>context.go('/myqr'),
+                            child: Text('My QR',style:TextStyle(color: Colors.white),),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),

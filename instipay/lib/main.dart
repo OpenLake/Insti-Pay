@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instipay/screens/main/home.dart';
+import 'package:instipay/screens/main/myqr.dart';
+import 'package:instipay/screens/main/paybyqr.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/login/signup.dart';
@@ -35,6 +37,21 @@ final GoRouter _router = GoRouter(
           return null;
         }
       },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'myqr',
+          builder: (BuildContext context, GoRouterState state) {
+            return MyQR();
+          },
+        ),
+        GoRoute(
+          path: 'paybyqr',
+          builder: (BuildContext context, GoRouterState state) {
+            return PayQR();
+          },
+        )
+
+      ],
     ),
     GoRoute(
       path: '/login',
@@ -62,6 +79,7 @@ final GoRouter _router = GoRouter(
         return Pay();
       },
     ),
+
 
   ],
 );

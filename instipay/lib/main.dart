@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instipay/screens/main/history.dart';
 import 'package:instipay/screens/main/home.dart';
 import 'package:instipay/screens/main/myqr.dart';
 import 'package:instipay/screens/main/paybyqr.dart';
@@ -10,14 +11,13 @@ import 'screens/login/signin.dart';
 import 'screens/main/pay.dart';
 import 'services/auth.dart';
 
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
     url: 'https://jnlcmfdnnrsexuszwzph.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpubGNtZmRubnJzZXh1c3p3enBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzE0ODMzMjIsImV4cCI6MTk4NzA1OTMyMn0.R63wWUOvhhwvMY_pPge_9zA1kPrejGkClxw4Jys6mu0',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpubGNtZmRubnJzZXh1c3p3enBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzE0ODMzMjIsImV4cCI6MTk4NzA1OTMyMn0.R63wWUOvhhwvMY_pPge_9zA1kPrejGkClxw4Jys6mu0',
   );
 
   runApp(MyApp());
@@ -50,13 +50,12 @@ final GoRouter _router = GoRouter(
             return PayQR();
           },
         )
-
       ],
     ),
     GoRoute(
       path: '/login',
       builder: (BuildContext context, GoRouterState state) {
-        return  Login();
+        return Login();
       },
       routes: <RouteBase>[
         GoRoute(
@@ -79,11 +78,14 @@ final GoRouter _router = GoRouter(
         return Pay();
       },
     ),
-
-
+    GoRoute(
+      path: '/history',
+      builder: (BuildContext context, GoRouterState state) {
+        return history();
+      },
+    ),
   ],
 );
-
 
 class MyApp extends StatelessWidget {
   /// Constructs a [MyApp]
@@ -96,7 +98,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
-

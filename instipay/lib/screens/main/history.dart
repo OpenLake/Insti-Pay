@@ -33,6 +33,7 @@ class _showhistory extends State<history> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text("Your history"),
       ),
       body: Padding(

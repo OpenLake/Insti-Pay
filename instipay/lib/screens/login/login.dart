@@ -42,15 +42,17 @@ class _LoginState extends State<Login> {
                   Card(
                       child: TextButton(
                           onPressed: () => context.go('/login/signup'),
-                          child: const Text("SignUp",style: TextStyle(
-                            color: Colors.pink
-                          ),))),
+                          child: const Text(
+                            "SignUp",
+                            style: TextStyle(color: Colors.pink),
+                          ))),
                   Card(
                     child: TextButton(
                         onPressed: () => context.go('/login/signin'),
-                        child: const Text("SignIn",style: TextStyle(
-                          color: Colors.pink
-                        ),)),
+                        child: const Text(
+                          "SignIn",
+                          style: TextStyle(color: Colors.pink),
+                        )),
                   ),
                 ],
               ),

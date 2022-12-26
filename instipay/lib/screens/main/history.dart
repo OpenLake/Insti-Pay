@@ -23,7 +23,7 @@ class _showhistory extends State<history> {
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
     var response =
-        await supabase.from("Transactions").select().eq("senderID", user?.id);
+        await supabase.from('Transactions').select().eq("senderID", user?.id);
     setState(() {
       dashlist = response.data.toList();
     });

@@ -22,8 +22,7 @@ class _showhistory extends State<history> {
   Future<void> readData() async {
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
-    var response =
-        await supabase.from('Transactions').select().eq("senderID", user?.id);
+    var response = await supabase.from('Transactions').select('*').csv();
     setState(() {
       dashlist = response.data.toList();
     });
@@ -77,4 +76,11 @@ class _showhistory extends State<history> {
       ),
     );
   }
+}
+
+Future<String> _getID() async {
+  final supabase = Supabase.instance.client;
+  final User? user = supabase.auth.currentUser;
+  final data = await supabase.from("Data").select().eq("email", user?.email);
+  return data[0]["clgID"];
 }

@@ -107,6 +107,19 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                Card(
+                  color: Color(0xff300757),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextButton(
+                      onPressed: () => context.go('/razorpay'),
+                      child: Text(
+                        'Pay on Razorpay',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
                 Row(
                   children: [
                     Expanded(

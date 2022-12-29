@@ -72,7 +72,8 @@ class _Rpay extends State<Rpay> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Razor Pay Tutorial"),
+        title: Text("Razor Pay Gateway"),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),

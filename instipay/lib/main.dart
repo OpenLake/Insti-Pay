@@ -3,6 +3,7 @@ import 'package:instipay/screens/main/history.dart';
 import 'package:instipay/screens/main/home.dart';
 import 'package:instipay/screens/main/myqr.dart';
 import 'package:instipay/screens/main/paybyqr.dart';
+import 'package:instipay/screens/main/razorpay.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/login/signup.dart';
@@ -49,7 +50,13 @@ final GoRouter _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return PayQR();
           },
-        )
+        ),
+        GoRoute(
+          path: 'razorpay',
+          builder: (BuildContext context, GoRouterState state) {
+            return Rpay();
+          },
+        ),
       ],
     ),
     GoRoute(

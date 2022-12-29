@@ -88,7 +88,7 @@ class _Rpay extends State<Rpay> {
             ),
             ElevatedButton(
               child: const Text(
-                "Donate Now",
+                "Pay Now",
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {

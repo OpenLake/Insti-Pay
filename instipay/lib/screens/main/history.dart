@@ -6,10 +6,10 @@ class history extends StatefulWidget {
   const history({Key? key}) : super(key: key);
 
   @override
-  State<history> createState() => _showhistory();
+  State<history> createState() => _Showhistory();
 }
 
-class _showhistory extends State<history> {
+class _Showhistory extends State<history> {
   List? dashlist;
 
   get senderID => null;

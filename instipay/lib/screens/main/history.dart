@@ -10,22 +10,26 @@ class history extends StatefulWidget {
 }
 
 class _Showhistory extends State<history> {
-  List? dashlist;
+  List? dashlist = [1, 2, 3, 4];
 
   get senderID => null;
   @override
   void initState() {
     super.initState();
     readData();
+    print(_getID());
   }
 
-  Future<void> readData() async {
+  Future<String> readData() async {
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
-    var response = await supabase.from('Transactions').select('*').csv();
-    setState(() {
-      dashlist = response.data.toList();
-    });
+    final data = await supabase.from("Data").select().eq("email", user?.email);
+    String response = data[0]["clgID"];
+    final res = await supabase
+        .from('Transactions')
+        .select('*')
+        .eq('senderID', response);
+    return res;
   }
 
   @override
@@ -52,8 +56,20 @@ class _Showhistory extends State<history> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                            (dashlist![index]["dash_position"]).toString()),
+                        child: FutureBuilder(
+                            future: _getID(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              var res1 = snapshot.data;
+                              return Text(
+                                "Balance    : ₹ $res1",
+                                style: const TextStyle(
+                                    color: Color(0xff2C0354),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16),
+                                textAlign: TextAlign.right,
+                              );
+                            }),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(

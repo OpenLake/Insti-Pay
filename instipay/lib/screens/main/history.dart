@@ -60,9 +60,11 @@ class _Showhistory extends State<history> {
                             future: _getID(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<String> snapshot) {
+                                if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
                               var res1 = snapshot.data;
                               return Text(
-                                "Balance    : ₹ $res1",
+                                "Your    :  $res1",
                                 style: const TextStyle(
                                     color: Color(0xff2C0354),
                                     fontWeight: FontWeight.w700,
@@ -99,4 +101,17 @@ Future<String> _getID() async {
   final User? user = supabase.auth.currentUser;
   final data = await supabase.from("Data").select().eq("email", user?.email);
   return data[0]["clgID"];
+}
+Future<int> _getWallet() async {
+  final supabase = Supabase.instance.client;
+  final User? user = supabase.auth.currentUser;
+  final data = await supabase.from("Transactions").select().eq("id", user?.id);
+  return data[0]["amount"];
+}
+
+Future<String> _getName() async {
+  final supabase = Supabase.instance.client;
+  final User? user = supabase.auth.currentUser;
+  final data = await supabase.from("Data").select().eq("email", user?.email);
+  return data[0]["name"];
 }

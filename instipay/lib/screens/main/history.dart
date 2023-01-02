@@ -1,117 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:go_router/go_router.dart';
 
-class history extends StatefulWidget {
-  const history({Key? key}) : super(key: key);
+class History extends StatefulWidget {
+  const History({Key? key}) : super(key: key);
 
   @override
-  State<history> createState() => _Showhistory();
+  State<History> createState() => _ShowHistory();
 }
 
-class _Showhistory extends State<history> {
-  List? dashlist = [1, 2, 3, 4];
+class _ShowHistory extends State<History> {
+  List myTransactions = [];
 
-  get senderID => null;
-  @override
-  void initState() {
-    super.initState();
-    readData();
-    print(_getID());
-  }
-
-  Future<String> readData() async {
+  Future<void> _getTransactions() async {
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
     final data = await supabase.from("Data").select().eq("email", user?.email);
-    String response = data[0]["clgID"];
-    final res = await supabase
+    String myID = data[0]["clgID"];
+    List response = await supabase
         .from('Transactions')
         .select('*')
-        .eq('senderID', response);
-    return res;
+        .or('senderID.eq.$myID,receiverID.eq.$myID');
+
+    setState(() {
+      myTransactions = response;
+      myTransactions.forEach((element) => print(element));
+    });
+  }
+
+  @override
+  void initState() {
+    _getTransactions();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff300757),
         centerTitle: true,
-        title: const Text("Your history"),
+        title: const Text('Your History'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 10, top: 15, right: 10),
-        child: dashlist != null
-            ? GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16.00,
-                    crossAxisSpacing: 6.00),
-                physics: const BouncingScrollPhysics(),
-                itemCount: dashlist?.length,
-                itemBuilder: (context, index) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: FutureBuilder(
-                            future: _getID(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                                if (!snapshot.hasData) {
-                              return const CircularProgressIndicator();
-                              var res1 = snapshot.data;
-                              return Text(
-                                "Your    :  $res1",
-                                style: const TextStyle(
-                                    color: Color(0xff2C0354),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                                textAlign: TextAlign.right,
-                              );
-                            }),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          top: 4,
-                          right: 16,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.00),
-                              border: Border.all(color: Colors.blue, width: 1)),
-                        ),
-                      ),
-                    ],
-                  );
-                })
-            : const Center(
-                child: Text("No Data Found"),
-              ),
-      ),
+      body: Center(
+          child: (myTransactions.isEmpty)
+              ? const Text('Your history will be shown here')
+              : GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.00,
+                      crossAxisSpacing: 6.00),
+                  padding: const EdgeInsets.all(8),
+                  itemCount: myTransactions.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                            Color.fromRGBO(44, 3, 84, 0.733),
+                            Color.fromRGBO(167, 37, 178, 0.376)
+                          ])),
+                      height: 50,
+                      child: Center(child: Text('$myTransactions')),
+                    );
+                  },
+                )),
+      backgroundColor: const Color.fromRGBO(167, 37, 178, 0.376),
     );
   }
-}
-
-Future<String> _getID() async {
-  final supabase = Supabase.instance.client;
-  final User? user = supabase.auth.currentUser;
-  final data = await supabase.from("Data").select().eq("email", user?.email);
-  return data[0]["clgID"];
-}
-Future<int> _getWallet() async {
-  final supabase = Supabase.instance.client;
-  final User? user = supabase.auth.currentUser;
-  final data = await supabase.from("Transactions").select().eq("id", user?.id);
-  return data[0]["amount"];
-}
-
-Future<String> _getName() async {
-  final supabase = Supabase.instance.client;
-  final User? user = supabase.auth.currentUser;
-  final data = await supabase.from("Data").select().eq("email", user?.email);
-  return data[0]["name"];
 }

@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:instipay/services/auth.dart';
 import 'package:go_router/go_router.dart';
-import 'forgotpassword.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({Key? key}) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _SignInState extends State<SignIn> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   @override
-  String ID = "";
-  String password = "";
-  String error = '';
+  String email = "";
+  String error = "";
   bool loading = false;
+
+  @override
+  void initState() {
+    final supabase = Supabase.instance.client;
+    supabase.auth.onAuthStateChange.listen((data) {
+      context.go('/login/forgotpassword/resetpassword/');
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       child: Scaffold(
@@ -40,7 +48,7 @@ class _SignInState extends State<SignIn> {
                             fontSize: 24),
                       ),
                       const Text(
-                        "Welcome back, Sign in to your account",
+                        "Forgot Password? Recover here",
                         style: TextStyle(color: Color(0xff6b7200)),
                       ),
                     ]),
@@ -55,24 +63,9 @@ class _SignInState extends State<SignIn> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
-                              decoration: InputDecoration(hintText: "ID No."),
+                              decoration: InputDecoration(hintText: "Email"),
                               onChanged: (val) {
-                                setState(() => ID = val);
-                              },
-                            ),
-                          ),
-                        ),
-                        Card(
-                          color: Color(0xddf9fafb),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextField(
-                              decoration: InputDecoration(hintText: "Password"),
-                              obscureText: true,
-                              onChanged: (val) {
-                                setState(() => password = val);
+                                setState(() => email = val);
                               },
                             ),
                           ),
@@ -85,32 +78,21 @@ class _SignInState extends State<SignIn> {
                               backgroundColor: Colors.purple,
                             ),
                             child: Text(
-                              'Sign In',
+                              'Send link',
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () async {
                               setState(() => loading = true);
-                              dynamic result = await AuthService()
-                                  .signInWithEmailAndPassword(ID, password);
-                              if (result == false) {
-                                setState(() {
-                                  loading = false;
-                                  error =
-                                      'Could not sign in with those credentials';
-                                });
-                              } else {
-                                context.go('/');
-                              }
+                              final supabase = Supabase.instance.client;
+                              final result = await supabase.auth
+                                  .resetPasswordForEmail(email,
+                                      redirectTo:
+                                          'com.example.instipay://reset-callback/');
+                              setState(() {
+                                error =
+                                    'Reset password link has been sent to your email.';
+                              });
                             }),
-                        Card(
-                          child: TextButton(
-                              onPressed: () =>
-                                  context.go('/login/forgotpassword'),
-                              child: const Text(
-                                "Forgot Password",
-                                style: TextStyle(color: Colors.pink),
-                              )),
-                        ),
                       ])),
                   Text(
                     error,

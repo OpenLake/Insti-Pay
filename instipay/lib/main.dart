@@ -88,7 +88,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/history',
       builder: (BuildContext context, GoRouterState state) {
-        return history();
+        return History();
       },
     ),
   ],

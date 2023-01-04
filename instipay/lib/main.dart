@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instipay/screens/main/history.dart';
 import 'package:instipay/screens/main/home.dart';
 import 'package:instipay/screens/main/myqr.dart';
 import 'package:instipay/screens/main/paybyqr.dart';

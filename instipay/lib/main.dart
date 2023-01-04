@@ -92,6 +92,12 @@ final GoRouter _router = GoRouter(
         return Pay();
       },
     ),
+    GoRoute(
+      path: '/history',
+      builder: (BuildContext context, GoRouterState state) {
+        return History();
+      },
+    ),
   ],
 );
 

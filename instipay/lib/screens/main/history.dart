@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:instipay/screens/main/home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class History extends StatefulWidget {
@@ -37,29 +39,41 @@ class _ShowHistory extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff300757),
-          centerTitle: true,
-          title: const Text('Your History'),
-        ),
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[Color(0xbb2C0354), Color(0x60A725B2)])),
-          child: Wrap(alignment: WrapAlignment.spaceAround, children: [
-            (myTransactions.isEmpty)
-                ? const Text('Your history will be shown here')
-                : ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(8),
-                    itemCount: 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Text('$myTransactions');
-                    })
-          ]),
-        ));
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: DefaultTabController(
+            length: 3,
+            child: Scaffold(
+                appBar: AppBar(
+                  leading: GestureDetector(
+                    onTap: () => context.go('/'),
+                    child: Icon(Icons.arrow_back_ios, color: Colors.white),
+                  ),
+                  title: Center(
+                    child: Text('Your history'),
+                  ),
+                  backgroundColor: Color(0x60A725B2),
+                ),
+                body: Container(
+                  decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                        Color(0xbb2C0354),
+                        Color(0x60A725B2)
+                      ])),
+                  child: Wrap(alignment: WrapAlignment.spaceAround, children: [
+                    (myTransactions.isEmpty)
+                        ? const Text('Your history will be shown here')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(16),
+                            itemCount: 1,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Text('$myTransactions');
+                            })
+                  ]),
+                ))));
   }
 }

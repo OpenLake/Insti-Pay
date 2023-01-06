@@ -39,41 +39,84 @@ class _ShowHistory extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-            length: 3,
-            child: Scaffold(
-                appBar: AppBar(
-                  leading: GestureDetector(
-                    onTap: () => context.go('/'),
-                    child: Icon(Icons.arrow_back_ios, color: Colors.white),
-                  ),
-                  title: Center(
-                    child: Text('Your history'),
-                  ),
-                  backgroundColor: Color(0x60A725B2),
-                ),
-                body: Container(
-                  decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: <Color>[
-                        Color(0xbb2C0354),
-                        Color(0x60A725B2)
-                      ])),
-                  child: Wrap(alignment: WrapAlignment.spaceAround, children: [
-                    (myTransactions.isEmpty)
-                        ? const Text('Your history will be shown here')
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            padding: const EdgeInsets.all(16),
-                            itemCount: 1,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Text('$myTransactions');
-                            })
-                  ]),
-                ))));
+    return SafeArea(
+        child: Scaffold(
+            body: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[
+                      Color.fromRGBO(44, 3, 84, 0.733),
+                      Color.fromRGBO(167, 37, 178, 0.376)
+                    ])),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Wrap(alignment: WrapAlignment.spaceAround, children: [
+                            FutureBuilder(
+                                future: _getName(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  if (!snapshot.hasData)
+                                    return Text(
+                                      'Transaction History',
+                                      style: TextStyle(
+                                          color: Color(0xff2C0354),
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 32),
+                                    );
+                                  String? name = snapshot.data;
+                                  return const Text("Transaction History",
+                                      style: TextStyle(
+                                          color: Color(0xff2C0354),
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 32));
+                                }),
+                            (myTransactions.isEmpty)
+                                ? const Text('Your history will be shown here')
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.all(16),
+                                    itemCount: myTransactions.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return DataTable(
+                                          onSelectAll: (b) {},
+                                          sortAscending: true,
+                                          columnSpacing: 19,
+                                          columns: const [
+                                            DataColumn(
+                                                label: Text(
+                                              'SenderID',
+                                            )),
+                                            DataColumn(
+                                                label: Text('ReceiverID')),
+                                            DataColumn(label: Text('Amount')),
+                                          ],
+                                          rows: [
+                                            DataRow(
+                                              cells: [
+                                              
+                                              DataCell(Text(
+                                                  '${myTransactions[index]['senderID']}')),
+                                              DataCell(Text(
+                                                  '${myTransactions[index]['receiverID']}')),
+                                              DataCell(Text(
+                                                  '${myTransactions[index]['amount']}'))
+                                            ])
+                                ]);
+                                    }),
+                          ]),
+                        ])))));
   }
+}
+
+Future<String> _getName() async {
+  final supabase = Supabase.instance.client;
+  final User? user = supabase.auth.currentUser;
+  final data = await supabase.from("Data").select().eq("email", user?.email);
+  return data[0]["name"];
 }

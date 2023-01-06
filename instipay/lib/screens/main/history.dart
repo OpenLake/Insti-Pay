@@ -91,15 +91,25 @@ class _ShowHistory extends State<History> {
                                             DataColumn(
                                                 label: Text(
                                               'SenderID',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
                                             )),
                                             DataColumn(
-                                                label: Text('ReceiverID')),
-                                            DataColumn(label: Text('Amount')),
+                                                label: Text('ReceiverID',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400))),
+                                            DataColumn(
+                                                label: Text('Amount',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400))),
                                           ],
                                           rows: [
-                                            DataRow(
-                                              cells: [
-                                              
+                                            DataRow(cells: [
                                               DataCell(Text(
                                                   '${myTransactions[index]['senderID']}')),
                                               DataCell(Text(
@@ -107,7 +117,7 @@ class _ShowHistory extends State<History> {
                                               DataCell(Text(
                                                   '${myTransactions[index]['amount']}'))
                                             ])
-                                ]);
+                                          ]);
                                     }),
                           ]),
                         ])))));

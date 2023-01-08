@@ -1,0 +1,47 @@
+class HModel {
+  String senderID;
+  String receiverID;
+  int amount;
+  bool isGroup;
+   HModel({
+    this.senderID,
+    this.receiverID,
+    this.amount,
+  });
+}
+
+DataTable(
+                                          onSelectAll: (b) {},
+                                          sortAscending: true,
+                                          columnSpacing: 19,
+                                          columns: const [
+                                            DataColumn(
+                                                label: Text(
+                                              'SenderID',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )),
+                                            DataColumn(
+                                                label: Text('ReceiverID',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400))),
+                                            DataColumn(
+                                                label: Text('Amount',
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w400))),
+                                          ],
+                                          rows: [
+                                            DataRow(cells: [
+                                              DataCell(Text(
+                                                  '${myTransactions[index]['senderID']}')),
+                                              DataCell(Text(
+                                                  '${myTransactions[index]['receiverID']}')),
+                                              DataCell(Text(
+                                                  '${myTransactions[index]['amount']}'))
+                                            ])
+                                          ]);

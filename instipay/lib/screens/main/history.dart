@@ -1,5 +1,9 @@
+// ignore_for_file: sort_child_properties_last
+
 import 'package:flutter/material.dart';
+import 'package:instipay/Customui/Ccard.dart';
 import 'package:go_router/go_router.dart';
+import 'package:instipay/Customui/Ccard.dart';
 import 'package:instipay/screens/main/home.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -60,65 +64,87 @@ class _ShowHistory extends State<History> {
                                 future: _getName(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<String> snapshot) {
-                                  if (!snapshot.hasData)
-                                    return Text(
+                                  if (!snapshot.hasData) {
+                                    return const Text(
                                       'Transaction History',
                                       style: TextStyle(
                                           color: Color(0xff2C0354),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 32),
                                     );
-                                  String? name = snapshot.data;
+                                  }
                                   return const Text("Transaction History",
                                       style: TextStyle(
                                           color: Color(0xff2C0354),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 32));
                                 }),
+                            const SizedBox(
+                              width: 544,
+                            ),
                             (myTransactions.isEmpty)
                                 ? const Text('Your history will be shown here')
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    padding: const EdgeInsets.all(16),
-                                    itemCount: myTransactions.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return DataTable(
-                                          onSelectAll: (b) {},
-                                          sortAscending: true,
-                                          columnSpacing: 19,
-                                          columns: const [
-                                            DataColumn(
-                                                label: Text(
-                                              'SenderID',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w400),
-                                            )),
-                                            DataColumn(
-                                                label: Text('ReceiverID',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w400))),
-                                            DataColumn(
-                                                label: Text('Amount',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w400))),
-                                          ],
-                                          rows: [
-                                            DataRow(cells: [
-                                              DataCell(Text(
-                                                  '${myTransactions[index]['senderID']}')),
-                                              DataCell(Text(
-                                                  '${myTransactions[index]['receiverID']}')),
-                                              DataCell(Text(
-                                                  '${myTransactions[index]['amount']}'))
-                                            ])
+                                : Expanded(
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        padding: const EdgeInsets.all(16),
+                                        itemCount: myTransactions.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Column(children: [
+                                            ListTile(
+                                              leading: Expanded(
+                                                  child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 16),
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            'senderID :${myTransactions[index]['senderID']}',
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                            textAlign:
+                                                                TextAlign.left,
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 15,
+                                                          ),
+                                                          Text(
+                                                            'receiverID :${myTransactions[index]['receiverID']}',
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                          )
+                                                        ],
+                                                      ))),
+                                              trailing: Column(children: [
+                                                Text(
+                                                  'amount :${myTransactions[index]['amount']}',
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                const SizedBox(width: 54),
+                                                const Text(
+                                                  'Done At',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ]),
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            const Divider(
+                                              thickness: 1,
+                                              color: Colors.white,
+                                            )
                                           ]);
-                                    }),
+                                        }))
                           ]),
                         ])))));
   }

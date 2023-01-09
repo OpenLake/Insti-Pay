@@ -1,10 +1,8 @@
-// ignore_for_file: sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:instipay/Customui/Ccard.dart';
 import 'package:go_router/go_router.dart';
-import 'package:instipay/Customui/Ccard.dart';
-import 'package:instipay/screens/main/home.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class History extends StatefulWidget {
@@ -41,6 +39,13 @@ class _ShowHistory extends State<History> {
     super.initState();
   }
 
+  Future<String> _getName() async {
+    final supabase = Supabase.instance.client;
+    final User? user = supabase.auth.currentUser;
+    final data = await supabase.from("Data").select().eq("email", user?.email);
+    return data[0]["name"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,9 +78,10 @@ class _ShowHistory extends State<History> {
                                           fontSize: 32),
                                     );
                                   }
-                                  return const Text("Transaction History",
+                                  return const Text("Your History",
                                       style: TextStyle(
-                                          color: Color(0xff2C0354),
+                                          color: Color.fromARGB(
+                                              255, 218, 212, 224),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 32));
                                 }),
@@ -84,75 +90,76 @@ class _ShowHistory extends State<History> {
                             ),
                             (myTransactions.isEmpty)
                                 ? const Text('Your history will be shown here')
-                                : Expanded(
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        padding: const EdgeInsets.all(16),
-                                        itemCount: myTransactions.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return Column(children: [
-                                            ListTile(
-                                              leading: Expanded(
-                                                  child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 16),
-                                                      child: Column(
-                                                        children: [
-                                                          Text(
-                                                            'senderID :${myTransactions[index]['senderID']}',
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .white),
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 15,
-                                                          ),
-                                                          Text(
-                                                            'receiverID :${myTransactions[index]['receiverID']}',
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .white),
-                                                          )
-                                                        ],
-                                                      ))),
-                                              trailing: Column(children: [
-                                                Text(
-                                                  'amount :${myTransactions[index]['amount']}',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                                const SizedBox(width: 54),
-                                                const Text(
-                                                  'Done At',
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ]),
-                                            ),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            const Divider(
-                                              thickness: 1,
-                                              color: Colors.white,
-                                            )
-                                          ]);
-                                        }))
-                          ]),
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.all(16),
+                                    itemCount: myTransactions.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return SingleChildScrollView(
+                                          padding: EdgeInsets.all(10),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Color.fromRGBO(
+                                                    249, 250, 251, 0.867)),
+                                            child: Column(children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Container(
+                                                      child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'SenderID :${myTransactions[index]['senderID']}',
+                                                      style: TextStyle(
+                                                          color: Colors.black),
+                                                    ),
+                                                  )),
+                                                  Container(
+                                                      child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child: Text(
+                                                      'Amount :${myTransactions[index]['amount']}',
+                                                      style: TextStyle(
+                                                          color: Colors.black),
+                                                    ),
+                                                  )),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    Container(
+                                                        child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8.0),
+                                                            child: Text(
+                                                              'ReceiverID :${myTransactions[index]['receiverID']}',
+                                                              style: const TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                            )))
+                                                  ]),
+                                              Divider(
+                                                thickness: 1,
+                                                color: Colors.grey,
+                                              )
+                                            ]),
+                                          ));
+                                    })
+                          ])
                         ])))));
   }
-}
-
-Future<String> _getName() async {
-  final supabase = Supabase.instance.client;
-  final User? user = supabase.auth.currentUser;
-  final data = await supabase.from("Data").select().eq("email", user?.email);
-  return data[0]["name"];
 }

@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,6 +15,8 @@ class History extends StatefulWidget {
 
 class _ShowHistory extends State<History> {
   List myTransactions = [];
+  bool checked = false;
+  String b = '';
 
   Future<void> _getTransactions() async {
     final supabase = Supabase.instance.client;
@@ -46,10 +49,21 @@ class _ShowHistory extends State<History> {
     return data[0]["name"];
   }
 
+  Future<void> _getID() async {
+    final supabase = Supabase.instance.client;
+    final User? user = supabase.auth.currentUser;
+    final data = await supabase.from("Data").select().eq("email", user?.email);
+    b = data[0]["clgID"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Color(0xff300757),
+              title: Text('YOUR HISTORY'),
+            ),
             body: Container(
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
@@ -71,14 +85,14 @@ class _ShowHistory extends State<History> {
                                     AsyncSnapshot<String> snapshot) {
                                   if (!snapshot.hasData) {
                                     return const Text(
-                                      'Transaction History',
+                                      '',
                                       style: TextStyle(
                                           color: Color(0xff2C0354),
                                           fontWeight: FontWeight.w700,
                                           fontSize: 32),
                                     );
                                   }
-                                  return const Text("Your History",
+                                  return const Text("",
                                       style: TextStyle(
                                           color: Color.fromARGB(
                                               255, 218, 212, 224),
@@ -96,6 +110,10 @@ class _ShowHistory extends State<History> {
                                     itemCount: myTransactions.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
+                                      var res1 =
+                                          myTransactions[index]['senderID'];
+                                      var res2 = _getID();
+
                                       return SingleChildScrollView(
                                           padding: EdgeInsets.all(10),
                                           child: Container(
@@ -114,11 +132,20 @@ class _ShowHistory extends State<History> {
                                                       child: Padding(
                                                     padding:
                                                         EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'SenderID :${myTransactions[index]['senderID']}',
-                                                      style: TextStyle(
-                                                          color: Colors.black),
-                                                    ),
+                                                    child:
+                                                        (res1.compareTo(b) == 0)
+                                                            ? Text(
+                                                                "sent to",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black),
+                                                              )
+                                                            : Text(
+                                                                'received from',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
                                                   )),
                                                   Container(
                                                       child: Padding(
@@ -146,7 +173,7 @@ class _ShowHistory extends State<History> {
                                                                 EdgeInsets.all(
                                                                     8.0),
                                                             child: Text(
-                                                              'ReceiverID :${myTransactions[index]['receiverID']}',
+                                                              'hi',
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .black),

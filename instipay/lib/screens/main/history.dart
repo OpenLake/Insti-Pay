@@ -135,13 +135,13 @@ class _ShowHistory extends State<History> {
                                                     child:
                                                         (res1.compareTo(b) == 0)
                                                             ? Text(
-                                                                "sent to",
+                                                                "Sent to -${myTransactions[index]['receivers_name']}",
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black),
                                                               )
                                                             : Text(
-                                                                'received from',
+                                                                'Received from -${myTransactions[index]['senders_name']}',
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black),
@@ -149,14 +149,25 @@ class _ShowHistory extends State<History> {
                                                   )),
                                                   Container(
                                                       child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(8.0),
-                                                    child: Text(
-                                                      'Amount :${myTransactions[index]['amount']}',
-                                                      style: TextStyle(
-                                                          color: Colors.black),
-                                                    ),
-                                                  )),
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child:
+                                                              (res1.compareTo(
+                                                                          b) ==
+                                                                      0)
+                                                                  ? Text(
+                                                                      '- ${myTransactions[index]['amount']}',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.black),
+                                                                    )
+                                                                  : Text(
+                                                                      '+${myTransactions[index]['amount']}',
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.black),
+                                                                    ))),
                                                 ],
                                               ),
                                               SizedBox(
@@ -173,7 +184,7 @@ class _ShowHistory extends State<History> {
                                                                 EdgeInsets.all(
                                                                     8.0),
                                                             child: Text(
-                                                              'hi',
+                                                              '${myTransactions[index]['date_done_at']}',
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .black),

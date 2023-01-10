@@ -135,13 +135,13 @@ class _ShowHistory extends State<History> {
                                                     child:
                                                         (res1.compareTo(b) == 0)
                                                             ? Text(
-                                                                "Sent to -${myTransactions[index]['receivers_name']}",
+                                                                "Sent to -${myTransactions[index]['r_name']}(${myTransactions[index]['receiverID']})",
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black),
                                                               )
                                                             : Text(
-                                                                'Received from -${myTransactions[index]['senders_name']}',
+                                                                'Received from -${myTransactions[index]['s_name']}(${myTransactions[index]['senderID']})',
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black),
@@ -157,13 +157,13 @@ class _ShowHistory extends State<History> {
                                                                           b) ==
                                                                       0)
                                                                   ? Text(
-                                                                      '- ${myTransactions[index]['amount']}',
+                                                                      '- ₹${myTransactions[index]['amount']}',
                                                                       style: TextStyle(
                                                                           color:
                                                                               Colors.black),
                                                                     )
                                                                   : Text(
-                                                                      '+${myTransactions[index]['amount']}',
+                                                                      '+₹${myTransactions[index]['amount']}',
                                                                       style: TextStyle(
                                                                           color:
                                                                               Colors.black),

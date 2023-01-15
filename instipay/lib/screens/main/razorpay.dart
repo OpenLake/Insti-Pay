@@ -34,9 +34,9 @@ class _Rpay extends State<Rpay> {
     razorpay.clear();
   }
 
-  void openCheckout() {
+  void openCheckout() async {
     var options = {
-      "key": "rzp_test_3CtrMlZPwU2Rep",
+      "key": 'rzp_test_3CtrMlZPwU2Rep',
       "amount": num.parse(textEditingController.text) * 100,
       "name": 'achintya',
       "description": "Money deposit",
@@ -134,9 +134,7 @@ class _Rpay extends State<Rpay> {
                         ),
                         TextButton(
                           onPressed: () {
-                            setState(() {
-                              openCheckout();
-                            });
+                            openCheckout();
                           },
                           child: const Text(
                             "Pay Now",

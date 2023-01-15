@@ -35,12 +35,15 @@ class _Rpay extends State<Rpay> {
   }
 
   void openCheckout() async {
+    final supabase = Supabase.instance.client;
+    final User? user = supabase.auth.currentUser;
+    final data = await supabase.from("Data").select().eq("email", user?.email);
     var options = {
       "key": 'rzp_test_3CtrMlZPwU2Rep',
       "amount": num.parse(textEditingController.text) * 100,
-      "name": 'achintya',
-      "description": "Money deposit",
-      "prefill": {"Ypur id": '12234', "email": 'xyz@gmail.com'},
+      "name": data[0]['name'],
+      "description": "PAY TO E-wallet",
+      "prefill": {"Your id": data[0]['clgID'], "email": data[0]['email']},
       "external": {
         "wallets": ["paytm"]
       }

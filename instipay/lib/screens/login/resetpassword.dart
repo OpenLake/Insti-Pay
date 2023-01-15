@@ -85,9 +85,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                               final User? updatedUser = res.user;
                               print(updatedUser);
                               if (updatedUser != null) {
+                                error =
+                                    "Password reset successfully. Login with new password.";
                                 context.go('/signin');
                               } else {
-                                error = "Something was wrong, Please retry";
+                                error =
+                                    "Something went wrong, please retry. Make sure length of password is more than 6 characters.";
                               }
                             }),
                       ])),

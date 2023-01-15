@@ -1,10 +1,7 @@
 // ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/intl.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:intl/intl.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
@@ -15,9 +12,8 @@ class History extends StatefulWidget {
 
 class _ShowHistory extends State<History> {
   List myTransactions = [];
-  bool checked = false;
-  String b = '';
-
+  String myid = '';
+  DateTime time = DateTime.now();
   Future<void> _getTransactions() async {
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
@@ -53,8 +49,9 @@ class _ShowHistory extends State<History> {
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
     final data = await supabase.from("Data").select().eq("email", user?.email);
-    b = data[0]["clgID"];
+    myid = data[0]["clgID"];
   }
+  //create a function that returns a list and use listviwe bulder to return the data
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +110,14 @@ class _ShowHistory extends State<History> {
                                       var res1 =
                                           myTransactions[index]['senderID'];
                                       var res2 = _getID();
-
+                                      String now =
+                                          myTransactions[index]["datetime"];
+                                      time = DateTime.tryParse(now)!.toUtc();
+                                      final contime = time.toLocal();
+                                      String formattedDate =
+                                          DateFormat.yMMMEd().format(contime);
+                                      String formattedtime =
+                                          DateFormat('H:m:s').format(contime);
                                       return SingleChildScrollView(
                                           padding: EdgeInsets.all(10),
                                           child: Container(
@@ -133,15 +137,16 @@ class _ShowHistory extends State<History> {
                                                     padding:
                                                         EdgeInsets.all(8.0),
                                                     child:
-                                                        (res1.compareTo(b) == 0)
+                                                        (res1.compareTo(myid) ==
+                                                                0)
                                                             ? Text(
-                                                                "Sent to -${myTransactions[index]['r_name']}(${myTransactions[index]['receiverID']})",
+                                                                "Sent to ${myTransactions[index]['receivername']} (${myTransactions[index]['receiverID']})",
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black),
                                                               )
                                                             : Text(
-                                                                'Received from -${myTransactions[index]['s_name']}(${myTransactions[index]['senderID']})',
+                                                                'Received from ${myTransactions[index]['sendername']}(${myTransactions[index]['senderID']})',
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black),
@@ -152,22 +157,21 @@ class _ShowHistory extends State<History> {
                                                           padding:
                                                               EdgeInsets.all(
                                                                   8.0),
-                                                          child:
-                                                              (res1.compareTo(
-                                                                          b) ==
-                                                                      0)
-                                                                  ? Text(
-                                                                      '- ₹${myTransactions[index]['amount']}',
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.black),
-                                                                    )
-                                                                  : Text(
-                                                                      '+₹${myTransactions[index]['amount']}',
-                                                                      style: TextStyle(
-                                                                          color:
-                                                                              Colors.black),
-                                                                    ))),
+                                                          child: (res1.compareTo(
+                                                                      myid) ==
+                                                                  0)
+                                                              ? Text(
+                                                                  '- ₹${myTransactions[index]['amount']}',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                )
+                                                              : Text(
+                                                                  '+₹${myTransactions[index]['amount']}',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                ))),
                                                 ],
                                               ),
                                               SizedBox(
@@ -184,7 +188,7 @@ class _ShowHistory extends State<History> {
                                                                 EdgeInsets.all(
                                                                     8.0),
                                                             child: Text(
-                                                              '${myTransactions[index]['date_done_at']}',
+                                                              '$formattedDate ($formattedtime)',
                                                               style: const TextStyle(
                                                                   color: Colors
                                                                       .black),

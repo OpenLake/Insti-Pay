@@ -64,6 +64,8 @@ class _PayState extends State<Pay> {
 
           await supabase.from('Transactions').insert({
             'senderID': data[0]["clgID"],
+            'sendername': data[0]['name'],
+            'receivername': data2[0]['name'],
             'receiverID': id,
             'amount': amount
           });

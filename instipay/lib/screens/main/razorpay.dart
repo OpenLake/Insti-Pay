@@ -38,7 +38,7 @@ class _Rpay extends State<Rpay> {
     var options = {
       "key": "rzp_test_3CtrMlZPwU2Rep",
       "amount": num.parse(textEditingController.text) * 100,
-      "name": 'aas',
+      "name": 'achintya',
       "description": "Money deposit",
       "prefill": {"Ypur id": '12234', "email": 'xyz@gmail.com'},
       "external": {

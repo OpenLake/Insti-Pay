@@ -27,20 +27,23 @@ class _CreateProfileState extends State<CreateProfile> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: ListView(
           children: <Widget>[
+            SizedBox(
+              height: 30,
+            ),
             imageProfile(),
             SizedBox(
-              height: 20,
+              height: 50,
             ),
-            nameTextField(),
-            SizedBox(
-              height: 20,
-            ),
+            // nameTextField(),
+            // SizedBox(
+            //   height: 30,
+            // ),
             Text(
               '${date.day}/${date.month}/${date.year}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
             ),
             SizedBox(
-              height: 7,
+              height: 10,
             ),
             ElevatedButton(
               child: Text('Select Date of Birth'),
@@ -59,12 +62,12 @@ class _CreateProfileState extends State<CreateProfile> {
               },
             ),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
-            idTextField(),
-            SizedBox(
-              height: 20,
-            ),
+            // idTextField(),
+            // SizedBox(
+            //   height: 20,
+            // ),
             Padding(
               padding: const EdgeInsets.all(0.0),
               child: DropdownButtonFormField(
@@ -94,13 +97,27 @@ class _CreateProfileState extends State<CreateProfile> {
             ),
             // yearField(),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
             ElevatedButton(
               onPressed: (() {}),
               child: Text("Submit"),
               style: ElevatedButton.styleFrom(primary: Color(0xff300757)),
-            )
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+                onPressed: () => context.go('/'),
+                child: Text(
+                  "Back",
+                  style: TextStyle(color: Colors.red),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  elevation: 0,
+                  shadowColor: Colors.transparent,
+                ))
           ],
         ),
       ),
@@ -112,7 +129,7 @@ class _CreateProfileState extends State<CreateProfile> {
       child: Stack(
         children: <Widget>[
           CircleAvatar(
-            radius: 80.0,
+            radius: 90.0,
             backgroundImage: _imageFile == null
                 ? AssetImage("assets/images/logo.png")
                 : FileImage(io.File(_imageFile!.path)) as ImageProvider,

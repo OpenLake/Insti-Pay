@@ -50,6 +50,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
+
+          ElevatedButton(
+              onPressed: () => context.go('/'),
+              child: Text(
+                "Back",
+                style: TextStyle(color: Colors.red),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                elevation: 0,
+              ))
           // Container(
           //     height: 50,
           //     width: 150,

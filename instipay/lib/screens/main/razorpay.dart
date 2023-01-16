@@ -58,21 +58,23 @@ class _Rpay extends State<Rpay> {
     }
   }
 
-  Future handlerPaymentSuccess(int amt) async {
+  void handlerPaymentSuccess(PaymentSuccessResponse response) async {
     print("Payment success");
     Fluttertoast.showToast(msg: 'Payment success');
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
     final data = await supabase.from("Data").select().eq("email", user?.email);
-    await supabase.from('Data').update(
-        {'amount': data[0]["amount"] + amt}).match({'clgID': data[0]["clgID"]});
+    await supabase
+        .from('Data')
+        .update({'amount': bal! + num.parse(textEditingController.text)}).match(
+            {'clgID': data[0]["clgID"]});
     setState(() {
       error = "Payment Successful";
       context.go('/');
     });
   }
 
-  void handlerErrorFailure() {
+  void handlerErrorFailure(PaymentFailureResponse response) {
     print("Payment error");
     Fluttertoast.showToast(msg: 'Payment error');
     setState(() {
@@ -81,18 +83,9 @@ class _Rpay extends State<Rpay> {
     });
   }
 
-  Future handlerExternalWallet(int amt) async {
+  void handlerExternalWallet(ExternalWalletResponse response) {
     print("External Wallet");
     Fluttertoast.showToast(msg: 'External Wallet');
-    final supabase = Supabase.instance.client;
-    final User? user = supabase.auth.currentUser;
-    final data = await supabase.from("Data").select().eq("email", user?.email);
-    await supabase.from('Data').update(
-        {'amount': data[0]["amount"] + amt}).match({'clgID': data[0]["clgID"]});
-    setState(() {
-      error = "Payment Successful";
-      context.go('/');
-    });
   }
 
   @override

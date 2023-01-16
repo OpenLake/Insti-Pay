@@ -16,6 +16,9 @@ class _CreateProfileState extends State<CreateProfile> {
   io.File? _imageFile;
   bool _load = false;
   final ImagePicker _picker = ImagePicker();
+  final dropdownItems = ['Student', 'Faculty', 'Vendor'];
+  var _value = "-1";
+  DateTime date = DateTime(2022, 12, 24);
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +35,72 @@ class _CreateProfileState extends State<CreateProfile> {
             SizedBox(
               height: 20,
             ),
-            dobField(),
+            Text(
+              '${date.day}/${date.month}/${date.year}',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            ),
+            SizedBox(
+              height: 7,
+            ),
+            ElevatedButton(
+              child: Text('Select Date of Birth'),
+              style: ElevatedButton.styleFrom(primary: Color(0xff300757)),
+              onPressed: () async {
+                DateTime? newDate = await showDatePicker(
+                  context: context,
+                  initialDate: date,
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime(2100),
+                );
+
+                if (newDate == null) return;
+
+                setState(() => date = newDate);
+              },
+            ),
             SizedBox(
               height: 20,
             ),
-            branchTextField(),
+            idTextField(),
             SizedBox(
               height: 20,
             ),
-            yearField(),
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: DropdownButtonFormField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(6))),
+                  value: _value,
+                  items: [
+                    DropdownMenuItem(
+                      child: Text("-Select Role-"),
+                      value: "-1",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Student"),
+                      value: "1",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Faculty"),
+                      value: "2",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Vendor"),
+                      value: "3",
+                    ),
+                  ],
+                  onChanged: (v) {}),
+            ),
+            // yearField(),
             SizedBox(
               height: 20,
             ),
+            ElevatedButton(
+              onPressed: (() {}),
+              child: Text("Submit"),
+              style: ElevatedButton.styleFrom(primary: Color(0xff300757)),
+            )
           ],
         ),
       ),
@@ -72,7 +129,7 @@ class _CreateProfileState extends State<CreateProfile> {
                 },
                 child: Icon(
                   Icons.camera_alt,
-                  color: Colors.teal,
+                  color: Color(0xff300757),
                   size: 28.0,
                 ),
               ))
@@ -122,15 +179,6 @@ class _CreateProfileState extends State<CreateProfile> {
     );
   }
 
-  // void takePhoto(ImageSource source) async {
-  //   final pickedFile = await _picker.pickImage(
-  //     source: source,
-  //   );
-  //   setState(() {
-  //     _imageFile = pickedFile as PickedFile;
-  //   });
-  // }
-
   Future takePhoto(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     setState(() {
@@ -153,7 +201,7 @@ class _CreateProfileState extends State<CreateProfile> {
           )),
           prefixIcon: Icon(
             Icons.person,
-            color: Colors.green,
+            color: Color(0xff300757),
           ),
           labelText: "Name",
           helperText: "Name can't be empty",
@@ -161,7 +209,7 @@ class _CreateProfileState extends State<CreateProfile> {
     );
   }
 
-  Widget dobField() {
+  Widget idTextField() {
     return TextFormField(
       decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -175,55 +223,11 @@ class _CreateProfileState extends State<CreateProfile> {
           )),
           prefixIcon: Icon(
             Icons.person,
-            color: Colors.green,
+            color: Color(0xff300757),
           ),
-          labelText: "Date of Birth",
-          helperText: "Provide DOB as DD/MM/YY",
-          hintText: "01/01/2004"),
-    );
-  }
-
-  Widget branchTextField() {
-    return TextFormField(
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderSide: BorderSide(
-            color: Colors.teal,
-          )),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          )),
-          prefixIcon: Icon(
-            Icons.person,
-            color: Colors.green,
-          ),
-          labelText: "Branch",
-          helperText: "Branch can't be empty",
-          hintText: "Mechanical Engineering"),
-    );
-  }
-
-  Widget yearField() {
-    return TextFormField(
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderSide: BorderSide(
-            color: Colors.teal,
-          )),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          )),
-          prefixIcon: Icon(
-            Icons.person,
-            color: Colors.green,
-          ),
-          labelText: "Year",
-          helperText: "Year can't be empty",
-          hintText: "2"),
+          labelText: "College Id",
+          helperText: "Id can't be empty",
+          hintText: "1180372019"),
     );
   }
 }

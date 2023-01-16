@@ -101,7 +101,7 @@ class _HomeState extends State<Home> {
                     child: TextButton(
                       onPressed: () => context.go('/razorpay'),
                       child: Text(
-                        'Top up Balance',
+                        'Add money',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

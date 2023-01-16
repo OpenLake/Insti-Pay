@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:instipay/services/auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../profile/ProfileScreen.dart';
+import '../profile/CreateProfile.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -33,20 +35,45 @@ class _HomeState extends State<Home> {
                     future: _getName(),
                     builder:
                         (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      if (!snapshot.hasData)
-                        return Text(
-                          'Hey',
-                          style: TextStyle(
-                              color: Color(0xff2C0354),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 32),
+                      if (!snapshot.hasData) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Hey',
+                              style: TextStyle(
+                                  color: Color(0xff2C0354),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 32),
+                            ),
+                            GestureDetector(
+                                onTap: () async {
+                                  final supabase = Supabase.instance.client;
+                                  await supabase.auth.signOut();
+                                  context.go('/login');
+                                },
+                                child: Icon(Icons.logout))
+                          ],
                         );
+                      }
                       String? name = snapshot.data;
-                      return Text("Hey , $name",
-                          style: TextStyle(
-                              color: Color(0xff2C0354),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 32));
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Hey , $name",
+                              style: TextStyle(
+                                  color: Color(0xff2C0354),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 32)),
+                          GestureDetector(
+                              onTap: () async {
+                                final supabase = Supabase.instance.client;
+                                await supabase.auth.signOut();
+                                context.go('/login');
+                              },
+                              child: Icon(Icons.logout)),
+                        ],
+                      );
                     }),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -77,6 +104,19 @@ class _HomeState extends State<Home> {
                                     style: TextStyle(color: Colors.white));
                               }),
                         ],
+                      ),
+                    ),
+                  ),
+                ),
+                Card(
+                  color: Color(0xff300757),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: TextButton(
+                      onPressed: () => context.go('/profile'),
+                      child: Text(
+                        'My Profile',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),

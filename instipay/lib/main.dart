@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:instipay/screens/main/history.dart';
+import 'package:instipay/screens/profile/CreateProfile.dart';
+import 'package:instipay/screens/profile/ProfileScreen.dart';
 import 'package:instipay/screens/main/home.dart';
 import 'package:instipay/screens/main/myqr.dart';
 import 'package:instipay/screens/main/paybyqr.dart';
@@ -95,6 +97,19 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+        path: '/profile',
+        builder: (BuildContext context, GoRouterState state) {
+          return ProfileScreen();
+        },
+        routes: <RouteBase>[
+          GoRoute(
+            path: 'CreateProfile',
+            builder: (BuildContext context, GoRouterState state) {
+              return CreateProfile();
+            },
+          ),
+        ]),
+    GoRoute(
       path: '/history',
       builder: (BuildContext context, GoRouterState state) {
         return History();
@@ -117,6 +132,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: _router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -26,15 +26,22 @@ class _ShowHistory extends State<History> {
 
     setState(() {
       myTransactions = response;
-      for (var element in myTransactions) {
-        print(element);
-      }
+    });
+  }
+
+  Future<void> _getmyID() async {
+    final supabase = Supabase.instance.client;
+    final User? user = supabase.auth.currentUser;
+    final data = await supabase.from("Data").select().eq("email", user?.email);
+    setState(() {
+      myid = data[0]["clgID"];
     });
   }
 
   @override
   void initState() {
     _getTransactions();
+    _getmyID();
     super.initState();
   }
 
@@ -45,12 +52,6 @@ class _ShowHistory extends State<History> {
     return data[0]["name"];
   }
 
-  Future<void> _getID() async {
-    final supabase = Supabase.instance.client;
-    final User? user = supabase.auth.currentUser;
-    final data = await supabase.from("Data").select().eq("email", user?.email);
-    myid = data[0]["clgID"];
-  }
   //create a function that returns a list and use listviwe bulder to return the data
 
   @override
@@ -109,7 +110,6 @@ class _ShowHistory extends State<History> {
                                         (BuildContext context, int index) {
                                       var res1 =
                                           myTransactions[index]['senderID'];
-                                      var res2 = _getID();
                                       String now =
                                           myTransactions[index]["datetime"];
                                       time = DateTime.tryParse(now)!.toUtc();
@@ -152,6 +152,9 @@ class _ShowHistory extends State<History> {
                                                                         .black),
                                                               ),
                                                   )),
+                                                  SizedBox(
+                                                    height: 50,
+                                                  ),
                                                   Container(
                                                       child: Padding(
                                                           padding:

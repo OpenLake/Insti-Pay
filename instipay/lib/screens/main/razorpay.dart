@@ -90,8 +90,7 @@ class _Rpay extends State<Rpay> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xff300757),
-          title: const Text("Pay to wallet"),
-          centerTitle: true,
+          title: const Text("Add money to wallet"),
         ),
         body: Container(
             decoration: const BoxDecoration(
@@ -103,20 +102,22 @@ class _Rpay extends State<Rpay> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FutureBuilder(
-                      future: _getBalance(),
-                      builder:
-                          (BuildContext context, AsyncSnapshot<int> snapshot) {
-                        bal = snapshot.data;
-                        return Text(
-                          "Balance    : ₹ $bal",
-                          style: const TextStyle(
-                              color: Color(0xff2C0354),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16),
-                          textAlign: TextAlign.right,
-                        );
-                      }),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: FutureBuilder(
+                          future: _getBalance(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<int> snapshot) {
+                            bal = snapshot.data;
+                            return Text(
+                              "Balance    : ₹ $bal",
+                              style: const TextStyle(
+                                  color: Color(0xff2C0354),
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16),
+                              textAlign: TextAlign.right,
+                            );
+                          })),
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(

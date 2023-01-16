@@ -141,7 +141,7 @@ class _Rpay extends State<Rpay> {
                             openCheckout();
                           },
                           child: const Text(
-                            "Pay Now",
+                            "Add",
                             style: TextStyle(
                                 fontSize: 24,
                                 fontFamily: "Roboto",

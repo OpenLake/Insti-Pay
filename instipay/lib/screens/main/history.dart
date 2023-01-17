@@ -87,121 +87,128 @@ class _ShowHistory extends State<History> {
               backgroundColor: Color(0xff300757),
               title: Text('YOUR HISTORY'),
             ),
-            body: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[
-                      Color.fromRGBO(44, 3, 84, 0.733),
-                      Color.fromRGBO(167, 37, 178, 0.376)
-                    ])),
-                child: Wrap(alignment: WrapAlignment.spaceAround, children: [
-                  (myTransactions.isEmpty)
-                      ? const Text('Your history will be shown here')
-                      : Scrollbar(
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: myTransactions.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                var res1 = myTransactions[index]['senderID'];
-                                String now = myTransactions[index]["datetime"];
-                                time = DateTime.tryParse(now)!;
-                                var contime = time.toLocal();
-                                contime = contime
-                                    .add(Duration(hours: 5, minutes: 30));
-                                String formattedDate =
-                                    DateFormat.yMMMEd().format(contime);
-                                String formattedtime =
-                                    DateFormat('H:m:s').format(contime);
-                                return SingleChildScrollView(
-                                  child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Color.fromRGBO(
-                                                249, 250, 251, 0.867)),
-                                        child: Column(children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              SingleChildScrollView(
-                                                child: Container(
-                                                    child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: (res1.compareTo(
-                                                              myid) ==
-                                                          0)
-                                                      ? Text(
-                                                          "Sent to ${myTransactions[index]['receivername']} (${myTransactions[index]['receiverID']})",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black),
-                                                        )
-                                                      : Text(
-                                                          'Received from ${myTransactions[index]['sendername']}(${myTransactions[index]['senderID']})',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black),
-                                                        ),
-                                                )),
+            body: SingleChildScrollView(
+              child: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[
+                        Color.fromRGBO(44, 3, 84, 0.733),
+                        Color.fromRGBO(167, 37, 178, 0.376)
+                      ])),
+                  child: Wrap(alignment: WrapAlignment.spaceAround, children: [
+                    (myTransactions.isEmpty)
+                        ? const Text('Your history will be shown here')
+                        : SingleChildScrollView(
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: ClampingScrollPhysics(),
+                                itemCount: myTransactions.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var res1 = myTransactions[index]['senderID'];
+                                  String now =
+                                      myTransactions[index]["datetime"];
+                                  time = DateTime.tryParse(now)!;
+                                  var contime = time.toLocal();
+                                  contime = contime
+                                      .add(Duration(hours: 5, minutes: 30));
+                                  String formattedDate =
+                                      DateFormat.yMMMEd().format(contime);
+                                  String formattedtime =
+                                      DateFormat('H:m:s').format(contime);
+                                  return SingleChildScrollView(
+                                    child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Color.fromRGBO(
+                                                  249, 250, 251, 0.867)),
+                                          child: SingleChildScrollView(
+                                            child: Column(children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Container(
+                                                      child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child:
+                                                        (res1.compareTo(myid) ==
+                                                                0)
+                                                            ? Text(
+                                                                "Sent to ${myTransactions[index]['receivername']} (${myTransactions[index]['receiverID']})",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black),
+                                                              )
+                                                            : Text(
+                                                                'Received from ${myTransactions[index]['sendername']}(${myTransactions[index]['senderID']})',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                  )),
+                                                  SizedBox(
+                                                    height: 50,
+                                                  ),
+                                                  Container(
+                                                      child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  8.0),
+                                                          child: (res1.compareTo(
+                                                                      myid) ==
+                                                                  0)
+                                                              ? Text(
+                                                                  '- ₹${myTransactions[index]['amount']}',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                )
+                                                              : Text(
+                                                                  '+₹${myTransactions[index]['amount']}',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                ))),
+                                                ],
                                               ),
                                               SizedBox(
-                                                height: 50,
+                                                height: 10,
                                               ),
-                                              Container(
-                                                  child: Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: (res1.compareTo(
-                                                                  myid) ==
-                                                              0)
-                                                          ? Text(
-                                                              '- ₹${myTransactions[index]['amount']}',
-                                                              style: TextStyle(
+                                              Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    Container(
+                                                        child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    8.0),
+                                                            child: Text(
+                                                              '$formattedDate ($formattedtime)',
+                                                              style: const TextStyle(
                                                                   color: Colors
                                                                       .black),
-                                                            )
-                                                          : Text(
-                                                              '+₹${myTransactions[index]['amount']}',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black),
-                                                            ))),
-                                            ],
+                                                            )))
+                                                  ]),
+                                              Divider(
+                                                thickness: 1,
+                                                color: Colors.grey,
+                                              )
+                                            ]),
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Container(
-                                                    child: Padding(
-                                                        padding:
-                                                            EdgeInsets.all(8.0),
-                                                        child: Text(
-                                                          '$formattedDate ($formattedtime)',
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .black),
-                                                        )))
-                                              ]),
-                                          Divider(
-                                            thickness: 1,
-                                            color: Colors.grey,
-                                          )
-                                        ]),
-                                      )),
-                                );
-                              }),
-                        )
-                ]))));
+                                        )),
+                                  );
+                                }),
+                          )
+                  ])),
+            )));
   }
 }

@@ -6,6 +6,8 @@ import 'package:instipay/screens/main/home.dart';
 import 'package:instipay/screens/main/myqr.dart';
 import 'package:instipay/screens/main/paybyqr.dart';
 import 'package:instipay/screens/main/razorpay.dart';
+import 'package:instipay/screens/profile/CreateProfile.dart';
+import 'package:instipay/screens/profile/ProfileScreen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/login/signup.dart';
@@ -54,7 +56,7 @@ final GoRouter _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return PayQR();
           },
-        )
+        ),
       ],
     ),
     GoRoute(
@@ -131,8 +133,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: _router,
       debugShowCheckedModeBanner: false,
+      routerConfig: _router,
     );
   }
 }

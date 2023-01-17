@@ -36,16 +36,16 @@ class _Rpay extends State<Rpay> {
     razorpay.clear();
   }
 
-  void openCheckout(int amt) async {
+  void openCheckout() async {
     final supabase = Supabase.instance.client;
     final User? user = supabase.auth.currentUser;
     final data = await supabase.from("Data").select().eq("email", user?.email);
     var options = {
       "key": 'rzp_test_3CtrMlZPwU2Rep',
-      "amount": amt,
+      "amount": num.parse(textEditingController.text) * 100,
       "name": data[0]['name'],
       "description": "PAY TO E-wallet",
-      "prefill": {"Your id": 1234, "email": data[0]['email']},
+      "prefill": {"Your id": data[0]['clgID'], "email": data[0]['email']},
       "external": {
         "wallets": ["paytm"]
       }
@@ -159,10 +159,7 @@ class _Rpay extends State<Rpay> {
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextField(
-                                    onChanged: (val) {
-                                      setState(
-                                          () => amt = int.parse(val) * 100);
-                                    },
+                                    controller: textEditingController,
                                     decoration: const InputDecoration(
                                         hintText: "Enter your amonut"),
                                   ))),
@@ -171,7 +168,7 @@ class _Rpay extends State<Rpay> {
                           ),
                           TextButton(
                             onPressed: () {
-                              openCheckout(amt);
+                              openCheckout();
                             },
                             child: const Text(
                               "Add",
